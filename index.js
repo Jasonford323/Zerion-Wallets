@@ -14,7 +14,7 @@
         console.log(`Добавление кошелька ${i + 1} из ${wallets.length}`);
 
         let success = false;
-        for (let j = 0; j < 15; j++) { // max 15 seconds
+        for (let j = 0; j < 10; j++) { // max 10 seconds
             const input = document.querySelector('#track-asset-input');
             if (input) {
                 fillInput(input, wallets[i]);
@@ -24,8 +24,9 @@
             await new Promise((resolve) => setTimeout(resolve, 1000));
         }
         await new Promise((resolve) => setTimeout(resolve, 1000));
-        if (!success) { // stuck happened
-            window.history.back();
+        if (!success) {
+            console.log('stuck happened, went too back, going forward now');
+            window.history.forward();
             await new Promise((resolve) => setTimeout(resolve, 5000));
             i--;
             continue;
