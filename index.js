@@ -13,8 +13,14 @@
       for (let i = 0; i < wallets.length; i++) {
         console.log(`Добавление кошелька ${i + 1} из ${wallets.length}`);
 
-        const input = document.querySelector('#track-asset-input');
-        fillInput(input, wallets[i]);
+        while (true) {
+            const input = document.querySelector('#track-asset-input');
+            if (input) {
+                fillInput(input, wallets[i]);
+                break;
+            }
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+        }
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
         const spans = document.querySelectorAll('span');
@@ -34,6 +40,7 @@
 
         await new Promise((resolve) => setTimeout(resolve, 5000));
         window.history.back();
+        await new Promise((resolve) => setTimeout(resolve, 500));
         window.history.back();
         await new Promise((resolve) => setTimeout(resolve, 5000));
       }
