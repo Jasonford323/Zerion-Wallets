@@ -13,15 +13,23 @@
       for (let i = 0; i < wallets.length; i++) {
         console.log(`Добавление кошелька ${i + 1} из ${wallets.length}`);
 
-        while (true) {
+        let success = false;
+        for (let j = 0; j < 15; j++) { // max 15 seconds
             const input = document.querySelector('#track-asset-input');
             if (input) {
                 fillInput(input, wallets[i]);
+                success = true;
                 break;
             }
             await new Promise((resolve) => setTimeout(resolve, 1000));
         }
         await new Promise((resolve) => setTimeout(resolve, 1000));
+        if (!success) { // stuck happened
+            window.history.back();
+            await new Promise((resolve) => setTimeout(resolve, 5000));
+            i--;
+            continue;
+        }
 
         const spans = document.querySelectorAll('span');
         spans.forEach(span => {
@@ -40,7 +48,6 @@
 
         await new Promise((resolve) => setTimeout(resolve, 5000));
         window.history.back();
-        await new Promise((resolve) => setTimeout(resolve, 500));
         window.history.back();
         await new Promise((resolve) => setTimeout(resolve, 5000));
       }
