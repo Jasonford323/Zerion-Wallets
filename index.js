@@ -62,8 +62,6 @@
         }
         await new Promise((resolve) => setTimeout(resolve, 3000));
 
-        console.log('history:', window.history)
-
         while (window.location.href !== 'https://app.zerion.io/connect-wallet') {
             window.history.back();
             await new Promise((resolve) => setTimeout(resolve, 1000));
