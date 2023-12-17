@@ -13,6 +13,7 @@
       for (let i = 0; i < wallets.length; i++) {
         console.log(`Добавление кошелька ${i + 1} из ${wallets.length}`);
 
+        // wait until connect-wallet page is fully loaded
         let success = false;
         for (let j = 0; j < 10; j++) { // max 10 seconds
             const input = document.querySelector('#track-asset-input');
@@ -47,10 +48,26 @@
             }
         });
 
-        await new Promise((resolve) => setTimeout(resolve, 5000));
-        window.history.back();
-        window.history.back();
-        await new Promise((resolve) => setTimeout(resolve, 5000));
+        // wait until address page is fully loaded
+        success = false;
+        for (let j = 0; j < 10; j++) { // max 10 seconds
+            const divs = document.querySelectorAll('div');
+            divs.forEach(div => {
+                if (div.textContent == 'Remove wallet') {
+                    success = true;
+                }
+            });
+            if (success) break;
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+        }
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+
+        console.log('history:', window.history)
+
+        while (window.location.href !== 'https://app.zerion.io/connect-wallet') {
+            window.history.back();
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+        }
       }
     
       console.log('Завершено');
